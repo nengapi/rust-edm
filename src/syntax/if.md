@@ -20,6 +20,39 @@ fn main() {
 }
 ```
 
+ตัวอย่างการใช้ if กับ &str และ String
+
+```rust, editable
+fn main() {
+    let name: &str = "Rust";  // ใช้ &str แทน String สำหรับค่าคงที่
+
+    if name == "Rust" {
+        println!("ชื่อตรงกับ Rust");
+    } else {
+        println!("ชื่อไม่ตรงกับ Rust");
+    }
+
+    if name.starts_with("R") {
+        println!("ชื่อขึ้นต้นด้วยตัว R");
+    }
+
+    if name.len() > 3 {
+        println!("ชื่อมีความยาวมากกว่า 3 ตัวอักษร");
+    }
+
+    let empty_name: &str = "";
+    if empty_name.is_empty() {
+        println!("ชื่อว่างเปล่า");
+    }
+
+    // ตัวอย่างการใช้ String
+    let dynamic_name = String::from("Rustacean");
+    if dynamic_name.contains("Rust") {
+        println!("ชื่อมีคำว่า Rust อยู่ด้วย");
+    }
+}
+```
+
 ## โจทย์:
 
 ##### ⭐️
