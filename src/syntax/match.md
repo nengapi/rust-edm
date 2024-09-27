@@ -42,6 +42,46 @@ fn main() {
 }
 ```
 
+- การใช้ match กับ enum กรณี function
+```rust, editable
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn process_message(msg: Message) {
+    match msg {
+        Message::Quit => {
+            println!("ออกจากโปรแกรม");
+        }
+        Message::Move { x, y } => {
+            println!("เคลื่อนที่ไปยังตำแหน่ง x: {}, y: {}", x, y);
+        }
+        Message::Write(text) => {
+            println!("ข้อความ: {}", text);
+        }
+        Message::ChangeColor(r, g, b) => {
+            println!("เปลี่ยนสีเป็น RGB({}, {}, {})", r, g, b);
+        }
+    }
+}
+
+fn main() {
+    let messages = vec![
+        Message::Move { x: 10, y: 20 },
+        Message::Write(String::from("สวัสดี")),
+        Message::ChangeColor(255, 0, 0),
+        Message::Quit
+    ];
+
+    for msg in messages {
+        process_message(msg);
+    }
+}
+```
+
 - การใช้ match กับ Option
 ```rust, editable
 fn main() {
