@@ -44,6 +44,62 @@ fn main() {
 }
 ```
 
+# ? operator
+
+> [!NOTE]
+> ? operator เป็นตัวดำเนินการที่ใช้กับ Result หรือ Option ใน Rust ซึ่งจะคืนค่าถ้าสำเร็จ หรือคืนค่าข้อผิดพลาดถ้าล้มเหลว
+
+ตัวอย่าง:
+
+```rust, editable
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_file_contents(path: &str) -> Result<String, io::Error> {
+    let mut file = File::open(path)?;
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)?;
+    Ok(contents)
+}
+
+fn main() {
+    match read_file_contents("example.txt") {
+        Ok(contents) => println!("ไฟล์มีเนื้อหา: {}", contents),
+        Err(error) => println!("เกิดข้อผิดพลาดในการอ่านไฟล์: {:?}", error),
+    }
+}
+```
+
+> [!TIP]
+> การใช้ `?` operator ช่วยให้โค้ดสั้นลงและอ่านง่ายขึ้น เมื่อเทียบกับการใช้ `match` หรือ `unwrap()`
+
+ตัวอย่างเดียวกันแต่ไม่ใช้ ? operator:
+
+```rust, editable
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_file_contents(path: &str) -> Result<String, io::Error> {
+    let mut file = match File::open(path) {
+        Ok(file) => file,
+        Err(error) => return Err(error),
+    };
+    
+    let mut contents = String::new();
+    match file.read_to_string(&mut contents) {
+        Ok(_) => Ok(contents),
+        Err(error) => Err(error),
+    }
+}
+
+fn main() {
+    match read_file_contents("example.txt") {
+        Ok(contents) => println!("ไฟล์มีเนื้อหา: {}", contents),
+        Err(error) => println!("เกิดข้อผิดพลาดในการอ่านไฟล์: {:?}", error),
+    }
+}
+```
+
 # Panic! & unwrap
 
 > [!NOTE]
@@ -61,6 +117,30 @@ fn main() {
     println!("ค่าของ y: {}", y.unwrap()); // จะเกิด panic!
 }
 ```
+
+ตัวอย่าง:
+
+```rust, editable
+fn main() {
+    let x: Result<i32, &str> = Ok(5);
+    let y: Result<i32, &str> = Err("ข้อผิดพลาดที่เกิดขึ้น");
+    
+    println!("ค่าของ x: {}", x.unwrap_or(0));
+    println!("ค่าของ y: {}", y.unwrap_or_else(|e| {
+        println!("เกิดข้อผิดพลาด y: {}", e);
+        0 // ค่าเริ่มต้นถ้าเกิดข้อผิดพลาด
+    }));
+}
+```
+> [!TIP]
+> `unwrap_or()` ซึ่งเป็นวิธีที่สั้นกว่าในการจัดการกับ Result หรือ Option
+
+> [!TIP]
+> `unwrap_or_else()` เป็นเมธอดที่ใช้กับ Result หรือ Option ใน Rust ซึ่งมีความยืดหยุ่นมากกว่า `unwrap_or()`
+> ```rust
+> result.unwrap_or_else(|err| { /* คำสั่งจัดการกับ error */ })
+> option.unwrap_or_else(|| { /* คำสั่งสร้างค่าทดแทน */ })
+> ```
 
 ## โจทย์:
 
@@ -210,6 +290,3 @@ fn main() {
     }
 }
 ```
-
-โจทย์เหล่านี้จะช่วยให้ผู้เรียนได้ฝึกการจัดการข้อผิดพลาดในภาษา Rust
-ตั้งแต่ระดับพื้นฐานไปจนถึงระดับที่ซับซ้อนขึ้น

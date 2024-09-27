@@ -7,6 +7,8 @@
   - [if syntax](./syntax/if.md)
   - [loop syntax](./syntax/loop.md)
   - [match](./syntax/match.md)
+  - [if let syntax](./syntax/if_let.md)
+  - [while let syntax](./syntax/while_let.md)
   - [Function](./syntax/function.md)
   - [Error Handling](./syntax/error_handling.md)
 - [Ownership & Borrowing](./ownership.md)

@@ -15,21 +15,23 @@ fn main() {
 }
 ```
 
-# Function Signature
-
-> [!NOTE] 
-> Function Signature คือส่วนที่ประกอบด้วยชื่อฟังก์ชัน, พารามิเตอร์ที่รับเข้ามา และประเภทข้อมูลที่ส่งกลับ (ถ้ามี) ใน Rust เราระบุประเภทข้อมูลของพารามิเตอร์และค่าที่ส่งกลับอย่างชัดเจน
-
 ตัวอย่าง:
 
 ```rust, editable
-fn add(a: i32, b: i32) -> i32 {
-    a + b
+fn add(left: i32, right: i32) -> i32 { left + right }
+fn sub(left: i32, right: i32) -> i32 { left - right }
+
+fn select(name: &str) -> fn(i32, i32) -> i32 {
+    match name {
+        "add" => add,
+        "sub" => sub,
+        _ => panic!("Unknown function"),
+    }
 }
 
 fn main() {
-    let result = add(5, 3);
-    println!("ผลลัพธ์: {}", result);
+    let fun = select("add");
+    println!("{} + {} = {}", 1, 2, fun(1, 2));
 }
 ```
 
@@ -142,5 +144,3 @@ fn main() {
     println!("GCD ของ 48 และ 18 คือ: {}", gcd(48, 18));
 }
 ```
-
-โจทย์เหล่านี้จะช่วยให้ผู้เรียนได้ฝึกการเขียนฟังก์ชันและการกำหนด function signature ในภาษา Rust ตั้งแต่ระดับพื้นฐานไปจนถึงระดับที่ซับซ้อนขึ้น
